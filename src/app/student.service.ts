@@ -22,7 +22,20 @@ export class StudentService {
     return this.studentsSubject.asObservable();
   }
 
-  addStudent(){
-    
+  addStudent(student:Student){
+    this.students.push(student);
+    this.studentsSubject.next(this.students)
+  }
+  deleteStudent(id:number){
+    this.students = this.students.filter(student =>student.id ! == id)
+    this.studentsSubject.next(this.students)
+  }
+
+  updateStudent(updateStudent:Student){
+    this.students=this.students.map(student =>student.id === updateStudent.id ? updateStudent:student);
+    this.studentsSubject.next(this.students)
+  }
+  getCurrentStudents(): Student[] {
+    return this.studentsSubject.getValue();
   }
 }
