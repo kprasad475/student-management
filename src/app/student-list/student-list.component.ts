@@ -4,6 +4,7 @@ import { Student } from '../studentmodel';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentFormComponent } from '../student-form/student-form.component';
+import { AddStudentComponent } from '../add-student/add-student.component';
 
 
 
@@ -16,21 +17,46 @@ export class StudentListComponent  implements OnInit{
   displayedColumns: string[] = ['id', 'name', 'age', 'grade', 'actions'];
   dataSource: MatTableDataSource<Student>;
 
-  constructor(private studentService: StudentService, public dialog: MatDialog) {}
+  constructor(private service: StudentService, public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.studentService.getStudents().subscribe(students => {
+    this.service.getStudents().subscribe(students => {
       this.dataSource = new MatTableDataSource(students);
     });
   }
 
   deleteStudent(id: number) {
-    this.studentService.deleteStudent(id);
+    this.service.deleteStudent(id);
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  // addStudent(form: NgForm) {
+  //   const newStudent: Student = {
+  //     id: this.generateId(),
+  //     name: form.value.name,
+  //     age: form.value.age,
+  //     grade: form.value.grade
+  //   };
+
+  //   this.service.addStudent(newStudent);
+  //   form.resetForm();
+  // }
+
+  addStudent(student:Student){
+    const dialogRef = this.dialog.open(AddStudentComponent, {
+      width: '250px',
+      data: { ...student }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service.updateStudent(result);
+      }
+    });
   }
   editStudent(student: Student) {
     const dialogRef = this.dialog.open(StudentFormComponent, {
@@ -40,7 +66,7 @@ export class StudentListComponent  implements OnInit{
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.studentService.updateStudent(result);
+        this.service.addStudent(result);
       }
     });
   }

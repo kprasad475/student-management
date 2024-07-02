@@ -17,12 +17,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { MatLabel } from '@angular/material/input';
+import { AddStudentComponent } from './add-student/add-student.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StudentListComponent,
-    StudentFormComponent
+    StudentFormComponent,
+    AddStudentComponent
   ],
   imports: [
     BrowserModule,
