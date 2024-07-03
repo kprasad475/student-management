@@ -1,18 +1,19 @@
+<!-- src/app/add-student/add-student.component.html -->
 <form #studentForm="ngForm" (ngSubmit)="addStudent(studentForm)">
-    <mat-form-field appearance="fill">
-      <mat-label>Name</mat-label>
-      <input matInput placeholder="Name" name="name" [(ngModel)]="student.name" required>
-    </mat-form-field>
-    
-    <mat-form-field appearance="fill">
-      <mat-label>Age</mat-label>
-      <input matInput placeholder="Age" name="age" type="number" [(ngModel)]="student.age" required>
-    </mat-form-field>
-    
-    <mat-form-field appearance="fill">
-      <mat-label>Grade</mat-label>
-      <input matInput placeholder="Grade" name="grade" [(ngModel)]="student.grade" required>
-    </mat-form-field>
-    
-    <button mat-raised-button color="primary" type="submit">Save Student</button>
-  </form>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput placeholder="Name" name="name" [(ngModel)]="student.name" required>
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Age</mat-label>
+    <input matInput placeholder="Age" name="age" type="number" [(ngModel)]="student.age" required>
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Grade</mat-label>
+    <input matInput placeholder="Grade" name="grade" [(ngModel)]="student.grade" required>
+  </mat-form-field>
+  
+  <button mat-raised-button color="primary" type="submit">Save Student</button>
+</form>

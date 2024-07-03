@@ -5,6 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentFormComponent } from '../student-form/student-form.component';
 import { AddStudentComponent } from '../add-student/add-student.component';
+import { MatDialogRef } from '@angular/material/dialog';
+
 
 
 
@@ -27,6 +29,7 @@ export class StudentListComponent  implements OnInit{
 
   deleteStudent(id: number) {
     this.service.deleteStudent(id);
+    this.refreshTable();
   }
 
   applyFilter(event: Event) {
@@ -34,30 +37,19 @@ export class StudentListComponent  implements OnInit{
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  // addStudent(form: NgForm) {
-  //   const newStudent: Student = {
-  //     id: this.generateId(),
-  //     name: form.value.name,
-  //     age: form.value.age,
-  //     grade: form.value.grade
-  //   };
-
-  //   this.service.addStudent(newStudent);
-  //   form.resetForm();
-  // }
-
-  addStudent(student:Student){
+  addStudent() {
     const dialogRef = this.dialog.open(AddStudentComponent, {
-      width: '250px',
-      data: { ...student }
+      width: '250px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.updateStudent(result);
+        this.service.addStudent(result);
+        this.refreshTable();
       }
     });
   }
+
   editStudent(student: Student) {
     const dialogRef = this.dialog.open(StudentFormComponent, {
       width: '250px',
@@ -66,9 +58,15 @@ export class StudentListComponent  implements OnInit{
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.addStudent(result);
+        this.service.updateStudent(result);
+        this.refreshTable();
       }
     });
   }
 
+  private refreshTable() {
+    this.service.getStudents().subscribe(students => {
+      this.dataSource.data = students;
+    });
+  }
 }

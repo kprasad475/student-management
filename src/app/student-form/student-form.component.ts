@@ -12,49 +12,29 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrl: './student-form.component.css'
 })
 export class StudentFormComponent {
+
   student: Student;
 
-  constructor(private service:StudentService,public dialogRef: MatDialogRef<StudentFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Student){
-      this.student = data || { id: 0, name: '', age: 0, grade: '' };
+  constructor(
+    private service: StudentService,
+    public dialogRef: MatDialogRef<StudentFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Student
+  ) {
+    this.student = { ...data };
+  }
 
-    }
-
-  addStudent(form: NgForm) {
-    const newStudent: Student = {
-      id: this.generateId(),
+  saveStudent(form: NgForm) {
+    const updatedStudent: Student = {
+      id: this.student.id,
       name: form.value.name,
       age: form.value.age,
       grade: form.value.grade
     };
 
-    this.service.addStudent(newStudent);
-    form.resetForm();
-  }
-  saveStudent(form: NgForm) {
-    if (this.student.id) {
-      // Update existing student
-      this.service.updateStudent(this.student);
-    } else {
-      // Add new student
-      const newStudent: Student = {
-        id: this.generateId(),
-        name: form.value.name,
-        age: form.value.age,
-        grade: form.value.grade
-      };
-
-      this.service.addStudent(newStudent);
-    }
-
-    this.dialogRef.close();
+    this.dialogRef.close(updatedStudent);
   }
 
-  private generateId(): number {
-    // Generate unique IDs here, for simplicity, you can increment from existing max ID
-    const currentStudents = this.service.getCurrentStudents();
-    const maxId = currentStudents.length > 0 ? Math.max(...currentStudents.map(s => s.id)) : 0;
-    return maxId + 1;
+  onNoClick(){
+    
   }
-
 }

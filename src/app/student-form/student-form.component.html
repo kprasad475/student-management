@@ -1,21 +1,24 @@
 <!-- src/app/student-form/student-form.component.html -->
-
-<form #studentForm="ngForm" (ngSubmit)="saveStudent(studentForm)">
+<h1 mat-dialog-title>{{ student.id ? 'Edit Student' : 'Add Student' }}</h1>
+<div mat-dialog-content>
+  <form #form="ngForm">
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
       <input matInput placeholder="Name" name="name" [(ngModel)]="student.name" required>
     </mat-form-field>
-    
+
     <mat-form-field appearance="fill">
       <mat-label>Age</mat-label>
-      <input matInput placeholder="Age" name="age" type="number" [(ngModel)]="student.age" required>
+      <input matInput placeholder="Age" type="number" name="age" [(ngModel)]="student.age" required>
     </mat-form-field>
-    
+
     <mat-form-field appearance="fill">
       <mat-label>Grade</mat-label>
       <input matInput placeholder="Grade" name="grade" [(ngModel)]="student.grade" required>
     </mat-form-field>
-    
-    <button mat-raised-button color="primary" type="submit">Save Student</button>
   </form>
-  
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="saveStudent(form)" cdkFocusInitial>Save</button>
+</div>

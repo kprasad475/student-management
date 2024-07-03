@@ -12,29 +12,31 @@ import { StudentFormComponent } from '../student-form/student-form.component';
 })
 export class AddStudentComponent {
   student: Student;
-  constructor(private service:StudentService,public dialogRef: MatDialogRef<StudentFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Student){
-      this.student = data || { id: 0, name: '', age: 0, grade: '' };
 
-    }
+  constructor(
+    private service: StudentService,
+    public dialogRef: MatDialogRef<AddStudentComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Student
+  ) {
+    this.student = { id: 0, name: '', age: 0, grade: '' };
+  }
 
-    addStudent(form: NgForm) {
-      const newStudent: Student = {
-        id: this.generateId(),
-        name: form.value.name,
-        age: form.value.age,
-        grade: form.value.grade
-      };
-  
-      this.service.addStudent(newStudent);
-      form.resetForm();
-    }
+  addStudent(form: NgForm) {
+    const newStudent: Student = {
+      id: this.generateId(),
+      name: form.value.name,
+      age: form.value.age,
+      grade: form.value.grade
+    };
 
-    private generateId(): number {
-      // Generate unique IDs here, for simplicity, you can increment from existing max ID
-      const currentStudents = this.service.getCurrentStudents();
-      const maxId = currentStudents.length > 0 ? Math.max(...currentStudents.map(s => s.id)) : 0;
-      return maxId + 1;
-    }
+    this.dialogRef.close(newStudent);
+    form.resetForm();
+  }
+
+  private generateId(): number {
+    const currentStudents = this.service.getCurrentStudents();
+    const maxId = currentStudents.length > 0 ? Math.max(...currentStudents.map(s => s.id)) : 0;
+    return maxId + 1;
+  }
 
 }

@@ -19,6 +19,7 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { MatLabel } from '@angular/material/input';
 import { AddStudentComponent } from './add-student/add-student.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,7 @@ import { AddStudentComponent } from './add-student/add-student.component';
     AppRoutingModule,MatIconModule,
     MatFormField,
     FormsModule,ReactiveFormsModule,
-    MatTableModule,MatLabel
+    MatTableModule,MatLabel,MatInputModule
   ],
   providers: [
     provideClientHydration(),
