@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { StudentFormComponent } from '../student-form/student-form.component';
 import { AddStudentComponent } from '../add-student/add-student.component';
 import { MatDialogRef } from '@angular/material/dialog';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+
 
 
 
@@ -13,7 +15,20 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
-  styleUrl: './student-list.component.css'
+  styleUrl: './student-list.component.css',
+  animations: [
+    trigger('rowState', [
+      state('normal', style({
+        transform: 'scale(1)',
+        background: 'transparent'
+      })),
+      state('hovered', style({
+        transform: 'scale(1.02)',
+        background: '#f5f5f5'
+      })),
+      transition('normal <=> hovered', animate('200ms ease-in'))
+    ])
+  ]
 })
 export class StudentListComponent  implements OnInit{
   displayedColumns: string[] = ['id', 'name', 'age', 'grade', 'actions'];
