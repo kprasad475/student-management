@@ -18,6 +18,8 @@ import { MatTableModule } from '@angular/material/table';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { MatLabel } from '@angular/material/input';
 import { AddStudentComponent } from './add-student/add-student.component';
+import { StudentDisplayComponent } from './student-display/student-display.component';
+import { provideHttpClient } from '@angular/common/http';
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { AddStudentComponent } from './add-student/add-student.component';
     AppComponent,
     StudentListComponent,
     StudentFormComponent,
-    AddStudentComponent
+    AddStudentComponent,
+    StudentDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { AddStudentComponent } from './add-student/add-student.component';
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })

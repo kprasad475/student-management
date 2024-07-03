@@ -7,6 +7,11 @@ import { StudentFormComponent } from '../student-form/student-form.component';
 import { AddStudentComponent } from '../add-student/add-student.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { NavigationEnd, RouterModule, Routes } from '@angular/router';
+import { Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
+
 
 
 
@@ -34,7 +39,13 @@ export class StudentListComponent  implements OnInit{
   displayedColumns: string[] = ['id', 'name', 'age', 'grade', 'actions'];
   dataSource: MatTableDataSource<Student>;
 
-  constructor(private service: StudentService, public dialog: MatDialog) {}
+  constructor(private service: StudentService, public dialog: MatDialog,private router:Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(event => {
+      console.log('Navigation event:', event);
+    });
+  }
 
   ngOnInit() {
     this.service.getStudents().subscribe(students => {
@@ -50,6 +61,16 @@ export class StudentListComponent  implements OnInit{
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  navigateToDetails() {
+    console.log('Navigating to student details...');
+    this.router.navigate(['/student-details']).then(success => {
+      if (success) {
+        console.log('Navigation successful!');
+      } else {
+        console.log('Navigation failed!');
+      }
+    });
   }
 
   addStudent() {
