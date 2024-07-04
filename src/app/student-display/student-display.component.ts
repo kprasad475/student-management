@@ -14,6 +14,7 @@ interface Student {
 })
 export class StudentDisplayComponent  implements OnInit{
   names:any
+  isSort:boolean=true;
 
   students:Student[] = [
     { name: 'John Doe', address: '123 Main St', class: '10th', age: 15, rollNo: 'A001' },
@@ -44,11 +45,15 @@ console.log("kabbb")  }
   }
 
   sortStudentsBy(property: keyof Student) {
-    this.students = [...this.students].sort((a, b) => (a[property] > b[property]) ? 1 : (a[property] < b[property]) ? -1 : 0);
-    console.log(this.students);
+    this.students = [...this.students].sort((a, b) => {
+      if (a[property] > b[property]) return this.isSort ? 1 : -1;
+      if (a[property] < b[property]) return this.isSort ? -1 : 1;
+      return 0;
+    });
+    this.isSort = !this.isSort;
   }
 
-  reverseSortStudentsBy(name: keyof Student) {
-    this.students.sort((a, b) => (a[name] < b[name]) ? 1 : (a[name] > b[name]) ? -1 : 0);
-  }
+  // reverseSortStudentsBy(name: keyof Student) {
+  //   this.students.sort((a, b) => (a[name] < b[name]) ? 1 : (a[name] > b[name]) ? -1 : 0);
+  // }
 }
